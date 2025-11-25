@@ -4,7 +4,7 @@
 
 **Data:** 25 de Novembro de 2025
 
-**Versão:** 1.0
+**Versão:** 2.0 (Com Detalhamento de Telas)
 
 ---
 
@@ -23,6 +23,7 @@ O sistema visa otimizar processos, reduzir erros de estoque, melhorar a precisã
 Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 
 ---
+
 ## 2. Objetivos e Critérios de Sucesso
 
 | Categoria | Objetivo | Descrição | Critério de Sucesso |
@@ -35,6 +36,8 @@ Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 ---
 
 ## 3. Funcionalidades Chave (Módulos Principais)
+
+
 
 ### 3.1. Módulo de Clientes (CRM)
 *   **Cadastro Completo:** Clientes (empresa/pessoa), armazenamento de dados de contato e preferências.
@@ -85,13 +88,97 @@ Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 
 ---
 
-## 4. Fluxos de Trabalho (Workflows) e Regras de Negócio
+## 4. Detalhamento das Telas (Web Application)
 
-### 4.1. Fluxos de Trabalho
+O sistema será acessado via interface web, com as seguintes telas principais:
+
+### 4.1. Telas de Autenticação
+*   **Tela de Login:** Formulário simples com campos de e-mail e senha. Opções para recuperar senha ou criar nova conta.
+*   **Tela de Cadastro/Registro:** Formulário para criação de novas contas de usuário (interno).
+*   **Tela de Recuperação de Senha:** Fluxo para redefinição de senha via e-mail.
+
+### 4.2. Dashboard (Tela Inicial)
+*   **Visão Geral:** Exibe um resumo das métricas mais importantes.
+*   **Widgets Principais:**
+    *   Nível de Estoque (Gráfico de status geral).
+    *   Funil de Vendas (Status das oportunidades).
+    *   Ações Pendentes (Alertas de estoque mínimo, pedidos em análise).
+    *   Vendas Recentes (Lista de últimos pedidos).
+    *   Ticket Médio e Produtos Mais Vendidos (Gráficos de análise rápida).
+
+### 4.3. Módulo de Clientes (CRM)
+
+*   **Lista de Clientes:** Tabela ou lista paginada com filtros (nome, status, ticket médio). Botões de ação (abrir, editar, excluir).
+*   **Detalhes do Cliente (Visão 360º):** Tela principal com abas para:
+    *   **Informações Básicas:** Dados de contato, endereço.
+    *   **Histórico de Compras:** Lista de todos os pedidos e orçamentos.
+    *   **Histórico de Atendimento/Comunicação:** Linha do tempo de interações (ligações, e-mails, WhatsApp, notas de reuniões).
+    *   **Oportunidades/Funil:** Rastreamento das negociações ativas.
+    *   **Análise:** Ticket médio, produtos preferidos.
+*   **Criar/Editar Cliente:** Formulário para cadastro completo.
+
+### 4.4. Módulo de Produtos
+
+*   **Lista de Produtos:** Tabela com filtros (SKU, nome, categoria, fornecedor). Exibe estoque atual, preço de custo e venda. Botões de ação (abrir, editar, excluir).
+*   **Criar/Editar Produto:** Formulário detalhado com campos para:
+    *   SKU, Nome, Descrição.
+    *   Preços (Custo, Venda).
+    *   Categoria, Fornecedor.
+    *   Gestão de Variações (tamanho, cor, modelo).
+    *   Upload de Fotos e Documentos.
+    *   Definição de Estoque Mínimo/Máximo.
+
+### 4.5. Módulo de Estoque (Inventário)
+
+*   **Movimentações de Estoque:** Tabela com histórico de todas as entradas e saídas. Filtros por data, tipo de movimento, produto e usuário.
+*   **Entrada de Estoque:** Formulário para registrar compras, devoluções ou ajustes positivos. Campos: Produto, Quantidade, Local, Fornecedor, Data, Motivo.
+*   **Saída de Estoque:** Formulário para registrar vendas (automático via Pedidos), consumo interno ou perdas. Campos: Produto, Quantidade, Local, Motivo.
+*   **Inventário Físico:** Tela para iniciar e gerenciar contagens.
+    *   Lista de contagens em andamento/concluídas.
+    *   Ferramenta de contagem (leitura de código de barras ou inserção manual).
+    *   Relatório de Divergências (esperado vs. encontrado) com opção de ajuste.
+*   **Alertas de Reposição:** Lista de produtos abaixo do estoque mínimo, com opção de gerar Pedido de Compra.
+
+### 4.6. Módulo de Pedidos / Vendas
+
+*   **Lista de Pedidos/Orçamentos:** Tabela com filtros (status, cliente, data, vendedor). Exibe status atual.
+*   **Criar/Editar Pedido:** Formulário para:
+    *   Seleção do Cliente.
+    *   Adição de Produtos (com consulta de disponibilidade em tempo real).
+    *   Cálculo de valores.
+    *   Reserva de Estoque.
+    *   Definição de Status (Em análise, Aprovado, etc.).
+    *   Opção de conversão de Orçamento para Pedido.
+
+### 4.7. Módulo de Fornecedores
+
+*   **Lista de Fornecedores:** Tabela com dados básicos e histórico de compras.
+*   **Detalhes do Fornecedor:** Informações de contato, lista de produtos fornecidos e análise de performance (prazo, preço).
+*   **Pedidos de Compra:** Lista de pedidos de compra feitos ao fornecedor, com status (Cotação, Aprovação, Recebimento).
+
+### 4.8. Módulo de Relatórios
+
+*   **Seleção de Relatório:** Menu com opções de relatórios (Curva ABC, Giro de Estoque, Ruptura, Vendas por Cliente, etc.).
+*   **Visualização e Filtros:** Tela de exibição do relatório com filtros de período, categoria, etc.
+*   **Exportação:** Botão para exportar para PDF/Excel.
+
+### 4.9. Configurações e Usuários
+
+*   **Gestão de Usuários:** Lista de usuários do sistema com seus perfis de acesso (Administrador, Vendedor, Estoquista).
+*   **Gestão de Permissões:** Tela para definir e ajustar os níveis de acesso.
+*   **Configurações Gerais:** Opções para configurar integrações, regras de negócio (ex: não permitir estoque negativo) e dados da empresa.
+
+---
+
+## 5. Fluxos de Trabalho (Workflows) e Regras de Negócio
+
+
+
+### 5.1. Fluxos de Trabalho
 *   **Fluxo de Venda:** Cliente cria pedido → Estoque reserva item → Pedido aprovado → Estoque dá baixa → Entrega → Registro no CRM.
 *   **Fluxo de Compra:** Solicitação → Cotação → Pedido → Recebimento → Entrada no estoque.
 
-### 4.2. Regras de Negócio
+### 5.2. Regras de Negócio
 *   Produtos **não podem** ficar com estoque negativo.
 *   Venda só acontece se houver **quantidade mínima** disponível.
 *   Cada usuário só pode editar o que estiver dentro do seu **nível de permissão**.
@@ -100,7 +187,9 @@ Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 
 ---
 
-## 5. Requisitos Técnicos e Não Funcionais
+## 6. Requisitos Técnicos e Não Funcionais
+
+
 
 | Tipo | Requisito | Detalhe |
 | :--- | :--- | :--- |
@@ -118,7 +207,9 @@ Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 
 ---
 
-## 6. Escopo Fora do Projeto (Out-of-Scope)
+## 7. Escopo Fora do Projeto (Out-of-Scope)
+
+
 
 É importante definir o que o projeto **não** irá contemplar para evitar desvios de escopo:
 *   **Integração com Sistemas Externos:** Não inclui integração nativa com ERPs, sistemas de contabilidade ou plataformas de e-commerce de terceiros (a API REST pública será o ponto de integração).
@@ -131,9 +222,11 @@ Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 
 ---
 
-## 7. Cronograma e Próximos Passos
+## 8. Cronograma e Próximos Passos
 
-### Fases do Projeto:
+*(Adicionado o detalhamento de fases do N4, adaptado para o tema CRM/Estoque)*
+
+### 8.1. Fases do Projeto:
 1.  Levantamento e prototipação (incluindo a aprovação formal deste escopo).
 2.  Arquitetura do sistema e especificações técnicas detalhadas (*wireframes*).
 3.  Desenvolvimento por módulos.
@@ -142,8 +235,21 @@ Empresas que vendem produtos físicos (lojas, distribuidoras, e-commerce, etc.).
 6.  Implantação.
 7.  Suporte pós-lançamento.
 
-### Próximos Passos Imediatos:
+### 8.2. Detalhamento das Fases
+
+| Fase | Duração Estimada | Foco Principal | Entregáveis Chave |
+| :--- | :--- | :--- | :--- |
+| **1. Setup de Infraestrutura** | 1 Semana | Configuração do ambiente e banco de dados. | Repositório pronto, Schema DB, Documentação base. |
+| **2. Fundação Back-end** | 2 Semanas | Implementação do sistema de Autenticação e API base. | Sistema de Login/Registro funcional, API de Autenticação testada. |
+| **3. API de Gestão (Clientes/Produtos)** | 2 Semanas | Criação dos endpoints CRUD para Clientes e Produtos. | API completa de Clientes e Produtos (incluindo variações). |
+| **4. API de Estoque e Vendas** | 2 Semanas | Criação dos endpoints para Movimentação de Estoque e Pedidos. | API de Estoque (Entrada/Saída/Inventário) e API de Pedidos/Vendas. |
+| **5. Web App - Parte 1 (Base e CRM)** | 2 Semanas | Criação da interface de Autenticação, Dashboard e Módulo de Clientes. | Web App com Login, Dashboard e Gestão de Clientes (CRUD). |
+| **6. Web App - Parte 2 (Estoque e Vendas)** | 2 Semanas | Implementação dos Módulos de Produtos, Estoque, Pedidos e Fornecedores. | Web App completo com todos os módulos de gestão. |
+| **7. Relatórios e Funcionalidades Extras** | 1 Semana | Implementação do Módulo de Relatórios e Configurações. | Módulo de Relatórios (Exportação PDF/Excel) e Gestão de Usuários/Permissões. |
+| **8. Testes e Refinamento** | 1 Semana | Testes abrangentes, correção de bugs e otimização. | Aplicação totalmente testada, performance otimizada, documentação finalizada. |
+
+### 8.3. Próximos Passos Imediatos:
 1.  **Aprovação do Escopo:** Revisão e aprovação formal deste documento pelas partes interessadas.
-2.  **Levantamento Detalhado:** Criação de *wireframes* e especificações técnicas detalhadas para cada funcionalidade.
+2.  **Levantamento Detalhado:** Criação de *wireframes* e especificações técnicas detalhadas para cada tela descrita na Seção 4.
 3.  **Planejamento:** Definição do cronograma, alocação de recursos e estimativa de custos.
 4.  **Desenvolvimento:** Início da fase de codificação e testes.
