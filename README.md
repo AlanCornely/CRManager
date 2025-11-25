@@ -196,6 +196,7 @@ O sistema será acessado via interface web, com as seguintes telas principais:
 | **Tecnologia** | Stack de Desenvolvimento | Python (ou Node.js), Vue e MySQL. |
 | **Backend** | Arquitetura | python (talvez node) |
 | **Frontend** | Arquitetura | vue |
+| **App Mobile** | Mobile | flutter |
 | **Banco de Dados** | Armazenamento | MySQL |
 | **Autenticação** | Acesso | JWT, OAuth, Autenticação de dois fatores (2FA) opcional. |
 | **Segurança** | Proteção de Dados | Criptografia SSL/TLS, Criptografia de dados sensíveis, Conformidade com LGPD, Backup automático. |
