@@ -6,6 +6,7 @@ class UsuarioBase(BaseModel):
     email: EmailStr
     cargo: Optional[str] = None
     permissao: Optional[str] = None
+    configuracoes: Optional[dict] = {}
 
 class UsuarioCreate(UsuarioBase):
     senha: str
@@ -16,6 +17,7 @@ class UsuarioUpdate(BaseModel):
     cargo: Optional[str] = None
     permissao: Optional[str] = None
     ativo: Optional[bool] = None
+    configuracoes: Optional[dict] = None
 
 class UsuarioInDB(UsuarioBase):
     id_usuario: int

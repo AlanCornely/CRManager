@@ -193,13 +193,12 @@ O sistema será acessado via interface web, com as seguintes telas principais:
 
 | Tipo | Requisito | Detalhe |
 | :--- | :--- | :--- |
-| **Tecnologia** | Stack de Desenvolvimento | Python (ou Node.js), Vue e MySQL. |
-| **Backend** | Arquitetura | python (talvez node) |
-| **Frontend** | Arquitetura | vue |
-| **App Mobile** | Mobile | flutter |
-| **Banco de Dados** | Armazenamento | MySQL |
-| **Autenticação** | Acesso | JWT, OAuth, Autenticação de dois fatores (2FA) opcional. |
-| **Segurança** | Proteção de Dados | Criptografia SSL/TLS, Criptografia de dados sensíveis, Conformidade com LGPD, Backup automático. |
+| **Tecnologia** | Stack de Desenvolvimento | Python (FastAPI) e Vue (Quasar) com Tailwind CSS. |
+| **Backend** | Arquitetura | Python |
+| **Frontend** | Arquitetura | Vue + Quasar |
+| **Banco de Dados** | Armazenamento | SQLite (migrando para SQLAlchemy) |
+| **Autenticação** | Acesso | Google OAuth 2.0 e JWT |
+| **Segurança** | Proteção de Dados | Criptografia SSL/TLS, Criptografia de dados sensíveis, Conformidade com LGPD, Backup automático, Database Hardening. |
 | **API** | Integração Externa | API REST pública para comunicação com outros sistemas. |
 | **Controle** | Logs | Logs de alteração e Permissões/Níveis de acesso. |
 | **Performance** | Tempo de Resposta | O tempo de carregamento de páginas e relatórios críticos não deve exceder **3 segundos**. |
@@ -254,3 +253,27 @@ O sistema será acessado via interface web, com as seguintes telas principais:
 2.  **Levantamento Detalhado:** Criação de *wireframes* e especificações técnicas detalhadas para cada tela descrita na Seção 4.
 3.  **Planejamento:** Definição do cronograma, alocação de recursos e estimativa de custos.
 4.  **Desenvolvimento:** Início da fase de codificação e testes.
+
+## 9. Guia de Manutenção e Desenvolvimento
+
+### 9.1. Gestão de Banco de Dados (Alembic)
+O projeto utiliza Alembic para versionamento do esquema do banco de dados.
+
+*   **Aplicar migrações (Atualizar banco):**
+    ```bash
+    alembic upgrade head
+    ```
+
+*   **Criar nova migração:**
+    ```bash
+    alembic revision -m "mensagem_da_mudanca"
+    ```
+
+### 9.2. Backup do Banco de Dados
+Um script de backup automatizado está disponível na raiz do projeto (`backup.sh`).
+
+*   **Executar backup:**
+    ```bash
+    ./backup.sh
+    ```
+    O arquivo gerado será salvo na pasta `backups/` com timestamp.
