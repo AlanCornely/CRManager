@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-dark font-sans;
+  }
+  
+  /* Modern scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full; 
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400; 
+  }
+}
+
+/* ── Dark Mode Global ── */
+.body--dark {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+.body--dark .bg-dark-page,
+.body--dark .q-page-container,
+.body--dark .q-page {
+  background-color: #0f172a !important;
+}
+
+.body--dark .dark-page-content {
+  background-color: #0f172a !important;
+}
+
+/* Header dark */
+.body--dark .bg-dark-header {
+  background-color: #1e293b !important;
+  border-bottom: 1px solid #334155;
+}
+
+/* Card dark */
+.body--dark .bg-dark-card {
+  background-color: #1e293b !important;
+}
+
+/* Quasar dark text */
+.body--dark h1,
+.body--dark h2,
+.body--dark h3,
+.body--dark .text-dark {
+  color: #f1f5f9 !important;
+}
+
+.body--dark .text-slate-500,
+.body--dark .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+/* Cards dark */
+.body--dark .q-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+/* Table dark */
+.body--dark .q-table thead tr {
+  background-color: #1e2d42 !important;
+  color: #94a3b8 !important;
+}
+
+.body--dark .q-table tbody tr:hover {
+  background-color: #1a2d45 !important;
+}
+
+.body--dark .q-table tbody tr {
+  border-color: #334155 !important;
+}
+
+.body--dark .q-table td,
+.body--dark .q-table th {
+  color: #e2e8f0 !important;
+}
+
+/* Inputs dark */
+.body--dark .q-field__control {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+.body--dark .q-field__label,
+.body--dark .q-field__native {
+  color: #94a3b8 !important;
+}
+
+.body--dark .q-field--outlined .q-field__control {
+  border-color: #334155 !important;
+}
+
+/* Stat cards dark */
+.body--dark .bg-slate-50 {
+  background-color: #1a2540 !important;
+}
+
+/* Separator dark */
+.body--dark .q-separator {
+  background-color: #334155 !important;
+}
+
+/* Chip dark */
+.body--dark .q-chip {
+  background-color: #334155 !important;
+}
+
+/* Dialog card dark */
+.body--dark .q-dialog .q-card {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+.body--dark .q-item__label {
+  color: #e2e8f0 !important;
+}
+
+/* Finance colored cards preserve their bg */
+.body--dark .bg-indigo-50 {
+  background-color: #1e1b4b !important;
+}
+.body--dark .bg-rose-50 {
+  background-color: #2d1219 !important;
+}

@@ -1,0 +1,1 @@
+import{J as e,j as r,ae as n,I as s}from"./index-H80bb9I6.js";const i=e({name:"QCardSection",props:{tag:{type:String,default:"div"},horizontal:Boolean},setup(t,{slots:a}){const o=s(()=>`q-card__section q-card__section--${t.horizontal===!0?"horiz row no-wrap":"vert"}`);return()=>r(t.tag,{class:o.value},n(a.default))}});export{i as Q};
