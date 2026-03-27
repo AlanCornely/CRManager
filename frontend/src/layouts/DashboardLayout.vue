@@ -37,12 +37,13 @@
       </div>
     </q-drawer>
 
-    <!-- Header with reveal-on-scroll -->
+    <!-- Header -->
     <q-header
-      reveal
+      fixed
+      bordered
       :class="$q.dark.isActive ? 'bg-dark-header text-white' : 'bg-white text-dark'"
-      class="flex flex-col justify-center px-8 shadow-sm"
-      style="height:64px;"
+      class="flex flex-col justify-center px-8"
+      style="height:64px; z-index: 2000;"
     >
       <div class="flex items-center justify-between w-full">
         <div class="flex items-center gap-4">
@@ -66,7 +67,7 @@
             <template v-slot:label>
               <q-btn flat round dense icon="notifications_none"
                 :class="$q.dark.isActive ? 'bg-dark text-white border border-slate-600' : 'bg-white text-secondary border border-slate-200'"
-                class="rounded-full shadow-sm relative"
+                class="rounded-full relative"
               >
                 <q-badge color="negative" floating rounded class="text-xs">3</q-badge>
               </q-btn>
@@ -94,12 +95,13 @@
             </q-list>
           </q-btn-dropdown>
 
-          <!-- Profile icon (#1 - generic icon) -->
+          <!-- Profile icon -->
           <q-btn-dropdown flat round dense no-icon-animation dropdown-icon="none">
             <template v-slot:label>
-              <q-avatar size="40px" :color="$q.dark.isActive ? 'grey-8' : 'grey-3'" class="cursor-pointer">
-                <q-icon name="account_circle" :size="'38px'" :color="$q.dark.isActive ? 'grey-4' : 'grey-7'" />
-              </q-avatar>
+              <q-btn flat round dense icon="person"
+                :class="$q.dark.isActive ? 'bg-dark text-white border border-slate-600' : 'bg-white text-secondary border border-slate-200'"
+                class="rounded-full relative"
+              />
             </template>
 
             <q-list :class="$q.dark.isActive ? 'bg-dark-card' : ''">

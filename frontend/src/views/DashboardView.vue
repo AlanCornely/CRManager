@@ -10,15 +10,6 @@
               <q-icon name="payments" size="20px" />
               Faturamento Total
             </div>
-            <q-btn flat round dense icon="more_vert" color="secondary">
-              <q-menu auto-close>
-                <q-list style="min-width:180px">
-                  <q-item clickable v-ripple><q-item-section avatar><q-icon name="bar_chart" size="sm"/></q-item-section><q-item-section>Ver Detalhes</q-item-section></q-item>
-                  <q-item clickable v-ripple @click="exportCardData('faturamento')"><q-item-section avatar><q-icon name="download" size="sm"/></q-item-section><q-item-section>Exportar</q-item-section></q-item>
-                  <q-item clickable v-ripple><q-item-section avatar><q-icon name="refresh" size="sm"/></q-item-section><q-item-section>Atualizar</q-item-section></q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
           </div>
           <div class="text-4xl font-bold text-dark mb-2">R$ 156.200,44</div>
           <div class="flex items-center text-sm gap-2">
@@ -38,15 +29,6 @@
               <q-icon name="shopping_bag" size="20px" />
               Total de Pedidos
             </div>
-            <q-btn flat round dense icon="more_vert" color="secondary">
-              <q-menu auto-close>
-                <q-list style="min-width:180px">
-                  <q-item clickable v-ripple><q-item-section avatar><q-icon name="list" size="sm"/></q-item-section><q-item-section>Ver Pedidos</q-item-section></q-item>
-                  <q-item clickable v-ripple @click="exportCardData('pedidos')"><q-item-section avatar><q-icon name="download" size="sm"/></q-item-section><q-item-section>Exportar</q-item-section></q-item>
-                  <q-item clickable v-ripple><q-item-section avatar><q-icon name="refresh" size="sm"/></q-item-section><q-item-section>Atualizar</q-item-section></q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
           </div>
           <div class="text-4xl font-bold text-dark mb-2">10.362</div>
           <div class="flex items-center text-sm gap-2">
@@ -66,15 +48,6 @@
               <q-icon name="inventory_2" size="20px" />
               Estoque Baixo
             </div>
-            <q-btn flat round dense icon="more_vert" color="secondary">
-              <q-menu auto-close>
-                <q-list style="min-width:180px">
-                  <q-item clickable v-ripple><q-item-section avatar><q-icon name="inventory_2" size="sm"/></q-item-section><q-item-section>Ver Estoque</q-item-section></q-item>
-                  <q-item clickable v-ripple @click="exportCardData('estoque')"><q-item-section avatar><q-icon name="download" size="sm"/></q-item-section><q-item-section>Exportar</q-item-section></q-item>
-                  <q-item clickable v-ripple><q-item-section avatar><q-icon name="refresh" size="sm"/></q-item-section><q-item-section>Atualizar</q-item-section></q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
           </div>
           <div class="text-4xl font-bold text-warning mb-2">231</div>
           <div class="flex items-center text-sm gap-2">
@@ -142,7 +115,7 @@
     <q-card flat bordered class="rounded-2xl border-slate-200">
       <q-card-section class="px-6 py-5 border-b border-slate-100 flex justify-between items-center">
         <div class="text-lg font-bold text-dark">Últimos Pedidos</div>
-        <q-btn flat icon="filter_list" color="secondary" class="bg-slate-50 hover:bg-slate-100 rounded-lg p-2" />
+        <q-btn flat :icon="filterFirstOrders ? 'check_box' : 'filter_list'" :color="filterFirstOrders ? 'primary' : 'secondary'" :label="filterFirstOrders ? 'Todos os pedidos' : 'Primeiros pedidos do dia'" class="bg-slate-50 hover:bg-slate-100 rounded-lg p-2 no-caps" @click="filterFirstOrders = !filterFirstOrders" />
       </q-card-section>
       
       <div class="overflow-x-auto">
@@ -158,7 +131,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="order in recentOrders" :key="order.id" class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <tr v-for="order in displayedOrders" :key="order.id" class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
               <td class="p-4 pl-6 font-medium text-dark">{{ order.id }}</td>
               <td class="p-4 text-slate-600">{{ order.date }}</td>
               <td class="p-4">
@@ -362,6 +335,17 @@ const recentOrders = ref([
   { id: '#SQ12998', date: '04 Mar 2025', customer: 'Fernanda Lima', initial: 'F', color: 'negative', status: 'Cancelado', amount: 600.00 },
   { id: '#SQ12999', date: '05 Mar 2025', customer: 'Roberto Costa', initial: 'R', color: 'secondary', status: 'Pendente', amount: 360.00 },
 ])
+
+const filterFirstOrders = ref(false)
+
+const displayedOrders = computed(() => {
+  if (filterFirstOrders.value) {
+    // Assuming the first orders of the day implies picking the oldest orders per date logic,
+    // or simply showing a filtered set (mocked as the first 3 for simplicity since recentOrders is static).
+    return recentOrders.value.slice().reverse().slice(0, 3) 
+  }
+  return recentOrders.value
+})
 
 const statusColor = (status) => {
   switch (status) {

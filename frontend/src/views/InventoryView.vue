@@ -64,8 +64,8 @@
         </q-card-section>
 
         <q-card-section class="space-y-4 q-pt-md">
-          <q-input outlined v-model="productForm.sku" label="SKU" autofocus />
-          <q-input outlined v-model="productForm.product" label="Nome do Produto" />
+          <q-input outlined v-model="productForm.sku" label="SKU (Automático)" readonly />
+          <q-input outlined v-model="productForm.product" label="Nome do Produto" autofocus />
           
           <!-- #10 - Category select with fixed categories + create new -->
           <q-select
@@ -93,8 +93,8 @@
             </template>
           </q-select>
 
-          <q-input outlined v-model="productForm.price" label="Preço (Ex: R$ 120,00)" />
-          <q-input outlined v-model.number="productForm.stock" type="number" label="Quantidade em Estoque" />
+          <q-input outlined v-model="productForm.price" label="Preço (R$)" type="number" step="0.01" />
+          <q-input outlined v-model.number="productForm.stock" type="number" min="0" label="Quantidade em Estoque" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary p-4">
@@ -207,14 +207,27 @@ const columns = [
   { name: 'actions', align: 'center', label: 'Ações', field: 'actions' }
 ]
 
-const rows = ref([
-  { id: 1, sku: 'SKU-1001', product: 'Teclado Mecânico Sem Fio', category: 'Eletrônicos', price: 'R$ 620,00', stock: 145 },
-  { id: 2, sku: 'SKU-1002', product: 'Mouse Ergonômico', category: 'Eletrônicos', price: 'R$ 245,00', stock: 8 },
-  { id: 3, sku: 'SKU-1003', product: 'Mesa Interativa Ajustável', category: 'Móveis', price: 'R$ 1.350,00', stock: 12 },
-  { id: 4, sku: 'SKU-1004', product: 'Fone de Ouvido Noise Cancelling', category: 'Eletrônicos', price: 'R$ 1.210,00', stock: 67 },
-  { id: 5, sku: 'SKU-1005', product: 'Hub USB-C 10-em-1', category: 'Acessórios', price: 'R$ 225,99', stock: 350 },
-  { id: 6, sku: 'SKU-1006', product: 'Led Inteligente de Mesa', category: 'Móveis', price: 'R$ 135,00', stock: 4 },
-])
+const rows = ref([])
+
+const fetchProducts = async () => {
+  try {
+    const res = await fetch('http://127.0.0.1:8000/api/v1/produtos/')
+    if (res.ok) {
+      const data = await res.json()
+      rows.value = data.map(p => ({
+        id: p.id_produto,
+        sku: p.sku || `SKU-${p.id_produto}`,
+        product: p.nome,
+        category: 'Eletrônicos',
+        price: p.preco_venda,
+        stock: p.quantidade_atual
+      }))
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
+fetchProducts()
 
 const filteredProducts = computed(() => {
   let result = rows.value
@@ -232,7 +245,8 @@ const filteredProducts = computed(() => {
 
 const openCreateDialog = () => {
   isEditing.value = false
-  productForm.value = { id: null, sku: '', product: '', category: 'Eletrônicos', price: '', stock: 0 }
+  const autoSku = 'SKU-' + Date.now().toString().slice(-6)
+  productForm.value = { id: null, sku: autoSku, product: '', category: 'Eletrônicos', price: '', stock: 0 }
   isProductDialogOpen.value = true
 }
 
@@ -242,21 +256,46 @@ const openEditDialog = (product) => {
   isProductDialogOpen.value = true
 }
 
-const saveProduct = () => {
+const saveProduct = async () => {
+  if (productForm.value.stock <= 0) {
+    if (productForm.value.id) removeProduct(productForm.value)
+    isProductDialogOpen.value = false
+    $q.notify({ message: 'Produto removido pois o estoque chegou a zero.', color: 'warning', icon: 'info' })
+    return
+  }
+
   if (isEditing.value) {
     const index = rows.value.findIndex(p => p.id === productForm.value.id)
     if (index !== -1) rows.value[index] = { ...productForm.value }
     $q.notify({ message: 'Produto atualizado.', color: 'positive', icon: 'check' })
   } else {
-    productForm.value.id = Date.now()
-    rows.value.unshift({ ...productForm.value })
-    $q.notify({ message: 'Produto adicionado com sucesso.', color: 'positive', icon: 'check' })
+    try {
+      const res = await fetch('http://127.0.0.1:8000/api/v1/produtos/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome: productForm.value.product,
+          sku: productForm.value.sku,
+          quantidade_atual: productForm.value.stock,
+          preco_venda: parseFloat(productForm.value.price || 0)
+        })
+      })
+      if (res.ok) {
+        const data = await res.json()
+        productForm.value.id = data.id_produto
+        rows.value.unshift({ ...productForm.value })
+        $q.notify({ message: 'Produto adicionado com sucesso.', color: 'positive', icon: 'check' })
+      }
+    } catch(e) {}
   }
   isProductDialogOpen.value = false
 }
 
-const removeProduct = (product) => {
+const removeProduct = async (product) => {
   rows.value = rows.value.filter(p => p.id !== product.id)
+  try {
+    await fetch(`http://127.0.0.1:8000/api/v1/produtos/${product.id}`, { method: 'DELETE' })
+  } catch(e) {}
   $q.notify({ message: 'Produto excluído.', color: 'negative', icon: 'delete' })
 }
 </script>

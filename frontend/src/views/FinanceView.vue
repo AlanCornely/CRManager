@@ -9,7 +9,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-      <q-card flat class="rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-900 shadow-sm p-6">
+      <q-card flat class="rounded-2xl bg-indigo-50 border-2 border-indigo-200 text-indigo-900 shadow-sm p-6">
         <div class="text-indigo-700 font-medium flex items-center gap-2">
           <q-icon name="account_balance_wallet" size="sm" /> Lucro Líquido
         </div>
@@ -19,7 +19,7 @@
         </div>
       </q-card>
       
-      <q-card flat class="rounded-2xl bg-rose-50 border border-rose-100 text-rose-900 shadow-sm p-6">
+      <q-card flat class="rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-900 shadow-sm p-6">
         <div class="text-rose-700 font-medium flex items-center gap-2">
           <q-icon name="money_off" size="sm" /> Total de Despesas
         </div>
@@ -68,7 +68,7 @@
           <q-input outlined v-model="txForm.name" label="Nome / Título" autofocus />
           <q-input outlined v-model="txForm.description" label="Descrição da Transação" />
           <q-input outlined v-model="txForm.amount" label="Valor (R$)" type="number" step="0.01" />
-          <q-select outlined v-model="txForm.account" :options="['Conta Corrente - Itaú', 'Cartão Corporativo', 'Caixa Interno']" label="Conta de Registro" />
+          <q-select outlined v-model="txForm.account" :options="['Conta Corrente', 'Cartão Corporativo', 'Caixa Interno']" label="Conta / Destino do Valor" />
           
           <!-- #11 – Auto date/time, readonly. Fetched from API -->
           <div class="flex gap-4">
@@ -119,22 +119,20 @@ const txForm = ref({
   name: '',
   description: '',
   amount: '',
-  account: 'Conta Corrente - Itaú',
+  account: 'Conta Corrente',
   date: '',
   time: ''
 })
 
-// #11 – Fetch current Brazil time from WorldTimeAPI, fallback to local Date
+// #11 – Fetch current Brazil time from Local API, fallback to local Date
 const fetchCurrentDateTime = async () => {
   loadingTime.value = true
   try {
-    const res = await fetch('https://worldtimeapi.org/api/timezone/America/Sao_Paulo')
+    const res = await fetch('http://127.0.0.1:8000/api/v1/time')
     if (!res.ok) throw new Error('API error')
     const data = await res.json()
-    // data.datetime: "2025-03-16T19:38:22.000000-03:00"
-    const dt = new Date(data.datetime)
-    txForm.value.date = dt.toLocaleDateString('pt-BR')
-    txForm.value.time = dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+    txForm.value.date = data.date
+    txForm.value.time = data.time
   } catch {
     // Fallback to local time
     const now = new Date()
@@ -151,7 +149,7 @@ const openTransactionDialog = async () => {
     name: '',
     description: '',
     amount: '',
-    account: 'Conta Corrente - Itaú',
+    account: 'Conta Corrente',
     date: '',
     time: ''
   }

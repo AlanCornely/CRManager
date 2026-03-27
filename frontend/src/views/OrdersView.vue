@@ -121,7 +121,8 @@
             type="textarea" autogrow
             hint="Descreva o conteúdo ou finalidade do pedido"
           />
-          <q-input outlined v-model="orderForm.total" label="Valor Total (Ex: R$ 150,00)" />
+          <q-input outlined v-model="orderForm.productIds" label="IDs dos Produtos" hint="Ex: SKU-1001, SKU-1002" />
+          <q-input outlined v-model="orderForm.total" label="Valor Total (R$)" type="number" step="0.01" />
           <q-select outlined v-model="orderForm.status" :options="['Processando', 'Enviado', 'Entregue', 'Cancelado']" label="Status" />
         </q-card-section>
 
@@ -146,7 +147,7 @@ const statusFilter = ref('Todos')
 
 const isOrderDialogOpen = ref(false)
 const isEditing = ref(false)
-const orderForm = ref({ id: '', customer: '', lote: '', objeto: '', total: '', status: 'Processando' })
+const orderForm = ref({ id: '', customer: '', lote: '', objeto: '', productIds: '', total: '', status: 'Processando' })
 
 const initialPagination = {
   sortBy: 'id',
@@ -205,7 +206,7 @@ const clearFilters = () => {
 
 const openCreateDialog = () => {
   isEditing.value = false
-  orderForm.value = { id: '', customer: '', lote: '', objeto: '', total: '', status: 'Processando' }
+  orderForm.value = { id: '', customer: '', lote: '', objeto: '', productIds: '', total: '', status: 'Processando' }
   isOrderDialogOpen.value = true
 }
 
@@ -232,9 +233,10 @@ const saveOrder = () => {
       id: newId,
       lote: orderForm.value.lote,
       objeto: orderForm.value.objeto,
+      productIds: orderForm.value.productIds,
       customer: orderForm.value.customer || 'Novo Cliente',
       date: new Date().toISOString().split('T')[0],
-      total: orderForm.value.total || 'R$ 0,00',
+      total: `R$ ${parseFloat(orderForm.value.total || 0).toFixed(2).replace('.', ',')}`,
       status: orderForm.value.status
     })
     $q.notify({ message: 'Pedido criado com sucesso.', color: 'positive', icon: 'check' })

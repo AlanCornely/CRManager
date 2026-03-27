@@ -1,36 +1,53 @@
 import { ref } from 'vue'
 
-// Global reactive customer store (singleton pattern)
-const customers = ref([
-  { id: 1, name: 'TechSolutions Ltda', email: 'contato@techsolutions.com', phone: '(11) 98765-0100', role: 'Cliente', spent: 124500.00, cep: '', houseNumber: '' },
-  { id: 2, name: 'Mercado Fácil SA', email: 'vendas@mercadofacil.com.br', phone: '(21) 99888-0101', role: 'Distribuidora', spent: 89200.50, cep: '', houseNumber: '' },
-  { id: 3, name: 'Carlos Eduardo', email: 'carlos.ed@example.com', phone: '(31) 98888-0102', role: 'Sócio', spent: 0, cep: '', houseNumber: '' },
-  { id: 4, name: 'Lojas Delta', email: 'compras@lojasdelta.com', phone: '(41) 97777-0103', role: 'Cliente', spent: 42800.00, cep: '', houseNumber: '' },
-  { id: 5, name: 'Administração Flow', email: 'admin@crmanager.com', phone: '(11) 95555-0104', role: 'Dono', spent: 0, cep: '', houseNumber: '' },
-])
+const customers = ref([])
+
+const fetchCustomers = async () => {
+  try {
+    const res = await fetch('http://127.0.0.1:8000/api/v1/clientes/')
+    if (res.ok) {
+      customers.value = await res.json()
+    }
+  } catch (err) {
+    console.error('Erro ao buscar clientes:', err)
+  }
+}
+
+// Fetch immediately
+fetchCustomers()
 
 const formatSpent = (value) => {
   return 'R$ ' + Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
 export function useCustomers() {
-  const addCustomer = (customer) => {
-    customer.id = Date.now()
-    customer.spent = 0
-    customers.value.unshift({ ...customer })
+  const addCustomer = async (customer) => {
+    try {
+      const res = await fetch('http://127.0.0.1:8000/api/v1/clientes/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(customer)
+      })
+      if (res.ok) {
+        const novo = await res.json()
+        customers.value.unshift(novo)
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const updateCustomer = (updated) => {
-    const index = customers.value.findIndex(c => c.id === updated.id)
+    const index = customers.value.findIndex(c => c.id_cliente === updated.id_cliente)
     if (index !== -1) customers.value[index] = { ...updated }
   }
 
   const removeCustomer = (id) => {
-    customers.value = customers.value.filter(c => c.id !== id)
+    customers.value = customers.value.filter(c => c.id_cliente !== id)
   }
 
-  const addSpent = (customerId, amount) => {
-    const customer = customers.value.find(c => c.id === customerId)
+  const addSpent = (id, amount) => {
+    const customer = customers.value.find(c => c.id_cliente === id)
     if (customer) {
       customer.spent = (customer.spent || 0) + Number(amount)
     }

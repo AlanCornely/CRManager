@@ -31,12 +31,14 @@
 
 .body--dark .bg-dark-page,
 .body--dark .q-page-container,
-.body--dark .q-page {
+.body--dark .q-page,
+.body--dark .bg-background,
+body.body--dark {
   background-color: #0f172a !important;
 }
 
 .body--dark .dark-page-content {
-  background-color: #0f172a !important;
+  background-color: transparent !important;
 }
 
 /* Header dark */
@@ -55,12 +57,13 @@
 .body--dark h2,
 .body--dark h3,
 .body--dark .text-dark {
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
 }
 
 .body--dark .text-slate-500,
-.body--dark .text-slate-600 {
-  color: #94a3b8 !important;
+.body--dark .text-slate-600,
+.body--dark .text-slate-700 {
+  color: #cbd5e1 !important;
 }
 
 /* Cards dark */

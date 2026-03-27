@@ -104,7 +104,7 @@
         <q-card-section class="space-y-4 q-pt-md">
           <q-input outlined v-model="customerForm.name" label="Nome Completo" autofocus />
           <q-input outlined v-model="customerForm.email" label="Endereço de E-mail" type="email" />
-          <q-input outlined v-model="customerForm.phone" label="Telefone" />
+          <q-input outlined v-model="customerForm.phone" label="Telefone" mask="(##) #####-####" unmasked-value />
           <q-select outlined v-model="customerForm.role" :options="['Cliente', 'Distribuidora', 'Sócio', 'Admin', 'Dono']" label="Tipo de Relação" />
           
           <!-- #8 - CEP e Número da Casa -->
